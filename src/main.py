@@ -7,6 +7,7 @@ WIN = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Battle Ships")
 
 WHITE_COLOR = (255,255,255) #setting the background color variable 
+Vel = 5                     # initialized velocity variable
 FPS = 60                    # initializing the fps variable
 
 SpaceShip_Width , SpaceShip_Height = (55,40) #setting up width and height for the spaceship
@@ -27,6 +28,27 @@ def draw_window(red,yellow):
     pygame.display.update()
 
 
+def yellow_handle_movement(keys_pressed, yellow):
+    if keys_pressed[pygame.K_a]:   #LEFT
+        yellow.x -= Vel
+    elif keys_pressed[pygame.K_d]: #RIGHT
+        yellow.x += Vel
+    elif keys_pressed[pygame.K_w]: #UP
+        yellow.y -= Vel
+    elif keys_pressed[pygame.K_s]: #DOWN
+        yellow.y += Vel
+
+def red_handle_movement(keys_pressed,red):
+    if keys_pressed[pygame.K_LEFT]:    #LEFT
+        red.x -= Vel
+    elif keys_pressed[pygame.K_RIGHT]: #RIGHT
+        red.x += Vel
+    elif keys_pressed[pygame.K_UP]:    #UP
+        red.y -= Vel
+    elif keys_pressed[pygame.K_DOWN]:  #DOWN
+        red.y += Vel
+
+
 def main():
     #<-------------making red and yellow arguments that will be passed in the function-------------------->
     red = pygame.Rect(700,300,SpaceShip_Width,SpaceShip_Height)
@@ -40,7 +62,14 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-        red.x -= 1                              # moving the red spaceship by 1 pixel 
+        #red.x -= 1                              # moving the red spaceship by 1 pixel 
+        
+        
+        keys_pressed = pygame.key.get_pressed()
+#<--------function calls for the movements---------------->
+        yellow_handle_movement(keys_pressed, yellow) 
+        red_handle_movement(keys_pressed, red)
+
         draw_window(red,yellow)
     
 
