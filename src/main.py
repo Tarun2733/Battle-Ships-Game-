@@ -5,11 +5,13 @@ WIDTH , HEIGHT = 900 , 500
 
 WIN = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Battle Ships")
-
-WHITE_COLOR = (255,255,255) #setting the background color variable 
-Vel = 5                     # initialized velocity variable
-FPS = 60                    # initializing the fps variable
-
+                                                            
+BLACK_COLOR = (0,0,0,0)                                     # setting border color variable
+WHITE_COLOR = (255,255,255)                                 # setting the background color variable 
+Vel = 5                                                     # initialized velocity variable
+FPS = 60                                                    # initializing the fps variable
+BORDER = pygame.Rect(WIDTH/2 - 5 , 0 , 10 , HEIGHT)         # creating a rectangle in the middle to section the window
+ 
 SpaceShip_Width , SpaceShip_Height = (55,40) #setting up width and height for the spaceship
 
 #Importing Yellow spaceship and transforming it to right orientation and size
@@ -23,29 +25,30 @@ Red_SpaceShip = pygame.transform.rotate(pygame.transform.scale(Red_SpaceShip_Ima
 
 def draw_window(red,yellow):
     WIN.fill(WHITE_COLOR)
+    pygame.draw.rect(WIN, BLACK_COLOR, BORDER)
     WIN.blit(Yellow_SpaceShip, (yellow.x,yellow.y))
     WIN.blit(Red_SpaceShip, (red.x,red.y))
     pygame.display.update()
 
 
 def yellow_handle_movement(keys_pressed, yellow):
-    if keys_pressed[pygame.K_a]:   #LEFT
+    if keys_pressed[pygame.K_a] and yellow.x - Vel > 0:                                  # LEFT
         yellow.x -= Vel
-    elif keys_pressed[pygame.K_d]: #RIGHT
+    elif keys_pressed[pygame.K_d] and yellow.x + Vel + yellow.width < BORDER.x:          # RIGHT
         yellow.x += Vel
-    elif keys_pressed[pygame.K_w]: #UP
+    elif keys_pressed[pygame.K_w] and yellow.y - Vel > 0:                                # UP
         yellow.y -= Vel
-    elif keys_pressed[pygame.K_s]: #DOWN
+    elif keys_pressed[pygame.K_s] and yellow.y + Vel + yellow.height < HEIGHT - 15:      # DOWN
         yellow.y += Vel
 
 def red_handle_movement(keys_pressed,red):
-    if keys_pressed[pygame.K_LEFT]:    #LEFT
+    if keys_pressed[pygame.K_LEFT] and red.x - Vel > BORDER.x + BORDER.width:            # LEFT
         red.x -= Vel
-    elif keys_pressed[pygame.K_RIGHT]: #RIGHT
+    elif keys_pressed[pygame.K_RIGHT] and red.x + Vel + red.width < WIDTH:               # RIGHT
         red.x += Vel
-    elif keys_pressed[pygame.K_UP]:    #UP
-        red.y -= Vel
-    elif keys_pressed[pygame.K_DOWN]:  #DOWN
+    elif keys_pressed[pygame.K_UP] and red.y - Vel > 0:                                  # UP
+        red.y -= Vel  
+    elif keys_pressed[pygame.K_DOWN] and red.y + Vel + red.height < HEIGHT - 15:         # DOWN
         red.y += Vel
 
 
